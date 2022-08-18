@@ -1,4 +1,4 @@
-package edu.java.ConditionMain05;
+package edu.java.condition05;
 
 import java.util.Random;
 
