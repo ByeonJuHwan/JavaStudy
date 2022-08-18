@@ -22,7 +22,7 @@ public class VarialbeMain04 {
 		// 세 과목의 총점(정수)을 계산 출력
 		// 세 과목의 평균(실수)을 계산하고 출력
 		
-		System.out.println("JAVA 점수를 입력하세요 >>");
+		System.out.println("JAVA 점수를 입력하세요 >>>");
 		int a = sc.nextInt();
 		
 		System.out.println("SQL 점수를 입력하세요>>>");
@@ -31,10 +31,14 @@ public class VarialbeMain04 {
 		System.out.println("JSP 점수를 입력하시요>>>");
 		int c = sc.nextInt();
 		
+		System.out.println("");
+		
 		int sum = a + b +c;
 		System.out.println("점수의 총점은 = " + sum);
 		
-		double avg = sum/3;
+		System.out.println("");
+		
+		double avg = sum/3.0;
 		System.out.println("점수의 평균은 = " + avg);
 	}
 
