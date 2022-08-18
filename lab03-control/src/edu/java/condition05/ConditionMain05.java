@@ -29,9 +29,9 @@ public class ConditionMain05 {
         
         // 모든 과목의 점수가 40점 이상이고, 평균이 60점 이상이면 '합격', 그렇지 않다면 '불합격' 출력.
         if((java>=40 && sql>=40 && jsp>=40) && (avg>=60)) {
-            System.out.println("합격");
+            System.out.println("합 격");
         }else {
-            System.out.println("불합격");
+            System.out.println("불 합격");
         }
         
     }
