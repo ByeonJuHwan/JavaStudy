@@ -42,6 +42,8 @@ public class VarialbeMain04 {
         System.out.println("점수의 평균은 = " + avg);
         
         // Ctrl + Shift + F : 소스 코드 포맷팅 (자동 정렬)
+        
+        sc.close();
     }
 
 }
