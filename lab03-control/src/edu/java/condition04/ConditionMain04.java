@@ -41,7 +41,7 @@ public class ConditionMain04 {
         if(z==0) {
             System.out.println("0은 홀수도 짝수도 아닙니다.");
         }else {
-            byeon = (z%2==0) ? (byeon="even") : (byeon="odd");
+            byeon = (z%2==0) ? "even" : "odd";
             System.out.println(byeon);
         }
        
@@ -50,7 +50,7 @@ public class ConditionMain04 {
         // 정수 난수 2개를 저장. 0이상 11미만의 정수 난수
         // int 타입 변수 bigger 에 두 난수 중에서 더 큰(크거나 같은) 숫자를 저장해라 
         // bigger 출력
-        int bigger = (x>=y) ? (bigger=x) : (bigger=y);
+        int bigger = (x>=y) ? x :y ;
         System.out.println("bigger = " + bigger);
     
     }
