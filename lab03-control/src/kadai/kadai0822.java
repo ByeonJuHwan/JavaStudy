@@ -24,8 +24,8 @@ public class kadai0822 {
         Random rd = new Random();
         
         while(true) {
-            int a = rd.nextInt(7);
-            int b = rd.nextInt(7);
+            int a = rd.nextInt(1,7);
+            int b = rd.nextInt(1,7);
             if(a+b==5) {
                 System.out.println("눈1 :" + a + ", " + "눈2 :" + b);
                 break;
@@ -95,6 +95,9 @@ public class kadai0822 {
             case 4:
                 run=false;
                 break;
+            default:
+                System.out.println("잘못 입력했씁니다. 메뉴를 다시 선택하세요.");
+                
             }
             System.out.println();
         
