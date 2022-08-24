@@ -22,7 +22,6 @@ public class kadaiArray {
                 System.out.print("학생수> ");
                 String studentNum1 = scanner.nextLine();
                 studentNum = Integer.parseInt(studentNum1);
-                        
             }else if (selectNo == 2) {
                 scores = new int [studentNum];
                 for(int i=0; i<scores.length;i++) {
