@@ -22,17 +22,35 @@ public class kadaiArray {
                 System.out.print("학생수> ");
                 String studentNum1 = scanner.nextLine();
                 studentNum = Integer.parseInt(studentNum1);
-            }else if (selectNo == 2) {
                 scores = new int [studentNum];
+            }else if (selectNo == 2) {
+                
+                if(scores == null) {
+                    System.out.println("학생수를 먼저 입력하세요...");
+                    continue; // while 반복문을 다시 시작.
+                }
+                
                 for(int i=0; i<scores.length;i++) {
                     System.out.print("scores["+i+"]> ");
                     scores[i]=Integer.parseInt(scanner.nextLine());
                 }
             }else if(selectNo==3) {
+                
+                if(scores == null) {
+                    System.out.println("학생수를 먼저 입력하세요...");
+                    continue; // while 반복문을 다시 시작.
+                }
+                
                 for(int i=0; i<scores.length;i++) {
                     System.out.println("scores["+i+"]> "+ scores[i]);
                 }
             }else if(selectNo==4) {
+                
+                if(scores == null) {
+                    System.out.println("학생수를 먼저 입력하세요...");
+                    continue; // while 반복문을 다시 시작.
+                }
+                
                 int max =scores[0];
                 for(int i=0; i<scores.length; i++) {
                     if(max<scores[i]) {
