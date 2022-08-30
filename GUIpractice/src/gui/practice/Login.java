@@ -24,6 +24,7 @@ public class Login extends JFrame {
         panel.add(pw);
         panel.add(txtPass);
         panel.add(logBtn);
+       
         
         // 로그인 버튼을 눌렀을때 맞는 아이디인지 확인하기위해 만드는 기능
         logBtn.addActionListener(new ActionListener() {
