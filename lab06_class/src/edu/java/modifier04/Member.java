@@ -23,7 +23,7 @@ public class Member {
     }
     
     public void setPw(String pw) {
-        if(pw==null || pw=="") {
+        if(pw==null) {
             System.out.println("비밀번호를 입력해주세요");
         }else {
             this.pw=pw;
