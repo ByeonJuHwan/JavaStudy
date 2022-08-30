@@ -3,6 +3,7 @@ package gui.practice;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Frame {
@@ -10,7 +11,8 @@ public class Frame {
         JFrame frame = new JFrame();  // JFrame 객체 생성
         JPanel panel = new JPanel();  // Frame 안에 panel을 넣는 객체 생성.  
         
-        
+        panel.add(new JLabel("welcome"));  // 패널 안에 'welcome'을 넣고 다시 패널을 frame안으로 넣어준다.
+    
         frame.add(panel); // add를 안해주면 frame따로 panel 따로 존재 하므로 무조건 panel을 넣어주어야한다.
         
         
