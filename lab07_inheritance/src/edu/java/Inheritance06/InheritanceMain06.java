@@ -53,6 +53,28 @@ public class InheritanceMain06 {
         // 두 객체가 같은 지를 비교할 때 그 주소값이 아니라 객체들이 가지고 있는 멤버들의 값으로 비교하고 싶을 때는 equals() 메서드를 재정의함.
         // 문자열이 같은 지를 비교할 때는 절대로 비교연사자(==, !=) 를 사용하지 말고,
         // equals() 메서드를 사용해서 비교!
+        
+        System.out.println("\n----------------\n");
+        
+        User user1 = new User("byeon","111");
+        System.out.println(user1);
+        
+        User user2 = new User("byeon","1234");
+        System.out.println(user2);
+        
+        
+        System.out.println("\n----------------\n");
+        
+        if(user1.equals(user2)) {
+            System.out.println("아이디가 일치합니다.");
+        }else {
+            System.out.println("아이디가 일치하지않습니다.");
+        }
+        
+        System.out.println("\n----------------\n");
+        
+        System.out.println(user1.hashCode());
+        System.out.println(user2.hashCode());
     }
 
 }
