@@ -34,25 +34,36 @@ public class MemberDaoImpl implements MemberDao{
     
     @Override
     public int create(Member m) {
-        // TODO Auto-generated method stub
+        Member member = new Member(m.getMemberId(), m.getMemberPassword());
+        memberList[count]=member;
+        if(memberList[count] != null) {
+            count++;
+            return 1;
+        }
         return 0;
     }
 
     @Override
     public Member[] read() {
-        // TODO Auto-generated method stub
-        return null;
+        
+        
+        
+        return memberList;
     }
 
     @Override
     public Member read(int index) {
-        // TODO Auto-generated method stub
-        return null;
+        if((memberList[count]==null)||(index<0||index>=MAX_LENGTH)) {
+            return null;
+        }
+        return memberList[index];
     }
 
     @Override
     public int update(int index, String password) {
-        // TODO Auto-generated method stub
+        
+        memberList[index].setMemberPassword(password);
+        
         return 0;
     }
     
