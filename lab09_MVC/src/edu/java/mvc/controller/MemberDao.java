@@ -32,7 +32,7 @@ public interface MemberDao {
      * 
      * @param index 수정할 회원의 배열 인덱스. 0 이상의 정수
      * @param password update할 새로운 비밀번호.
-     * @return 비밀번호 수정 성공하면 1, 그렇지 않으면 0을 리턴.
+     * @return 수정할 연락처가 없다면 2, 비밀번호 수정 성공하면 1, 그렇지 않으면 0을 리턴.
      */
     int update(int index, String password);
 }
