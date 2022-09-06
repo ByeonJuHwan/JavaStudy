@@ -8,7 +8,7 @@ public class MemberDaoImpl implements MemberDao{
     // Member 객체를 저장할 배열의 최대 크기
     private static final int MAX_LENGTH = 3;
     
-    // Member 객체들을 저장할 배열
+    // Member 객체들을 저장할 배열 Member의 메서드도 사용가능
     private Member[] memberList = new Member[MAX_LENGTH];
     
     // 배열에 저장된 Member 객체의 수. Member 객체가 배열에 저장될 때마다 1씩 증가.
@@ -34,37 +34,31 @@ public class MemberDaoImpl implements MemberDao{
     
     @Override
     public int create(Member m) {
-        Member member = new Member(m.getMemberId(), m.getMemberPassword());
-        memberList[count]=member;
-        if(memberList[count] != null) {
+    		memberList[count]=m;
             count++;
+            
             return 1;
-        }
-        return 0;
     }
 
     @Override
     public Member[] read() {
-        
-        
-        
+    	// TODO : memberList를 그대로 리턴하지 말고, 
+    	// 실제로 저장된 Member 개수만큼만 배열을 새로 생성해서 리턴.
         return memberList;
     }
 
     @Override
     public Member read(int index) {
-        if((memberList[count]==null)||(index<0||index>=MAX_LENGTH)) {
-            return null;
-        }
+       // FIXME : ArrayIndexOutOfBoundsException
         return memberList[index];
     }
 
     @Override
     public int update(int index, String password) {
+        // FIXME : NullPointerException
+        memberList[index].setMemberPassword(password); 
         
-        memberList[index].setMemberPassword(password);
-        
-        return 0;
+        return 1;
     }
     
     

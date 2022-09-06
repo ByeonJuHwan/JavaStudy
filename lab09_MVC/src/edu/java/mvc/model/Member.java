@@ -39,7 +39,7 @@ public class Member {
     
     @Override
     public String toString() { 
-        return String.format("Member(memberId=%s,memberPassword=%s", memberId, memberPassword);
+        return String.format("Member(memberId=%s,memberPassword=%s)", memberId, memberPassword);
     } 
     
 }

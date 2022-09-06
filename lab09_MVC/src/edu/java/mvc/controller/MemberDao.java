@@ -9,14 +9,14 @@ public interface MemberDao {
      * @param m 신규 등록할 회원 정보
      * @return 배열에 신규 회원 저장이 성공하면 1, 그렇지 않으면 0을 리턴.
      */
-    int create(Member m);
+    int create(Member m);   // view --> controller
     
     /**
      * 전체 회원 목록 검색 기능. 배열에 저장된 모든 회원 정보가 저장된 배열을 리턴.
      * 
      * @return 회원 정보가 저장된 배열.
      */
-    Member[] read();
+    Member[] read();  // controller --> view
     
     /**
      * 인덱스를 사용한 회원 정보 검색 기능. 배열에서 해당 인덱스의 Member 객체를 찾아서 리턴.
