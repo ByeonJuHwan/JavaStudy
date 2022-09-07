@@ -1,5 +1,6 @@
 package edu.java.mvc.view;
 
+
 import java.util.Scanner;
 
 import edu.java.mvc.controller.MemberDaoImpl;
