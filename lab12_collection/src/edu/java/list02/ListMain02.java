@@ -38,7 +38,7 @@ public class ListMain02 {
         System.out.println();
         
         // 7. 짝수 제곱들을 저장하는 LinkedList 변수 (evenSquares) 선언, 객체 생성.
-        LinkedList<Integer> evenSquares = new LinkedList<>();
+        LinkedList<Integer> evenSquares = new LinkedList<>();     
         
         
         // 8. 난수들이 저장된 리스트 numbers에서 짝수들을 찾아서 그 제곱을 evenSquares에 저장
