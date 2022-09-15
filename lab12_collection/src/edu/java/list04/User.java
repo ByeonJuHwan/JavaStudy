@@ -34,4 +34,20 @@ public class User {
        
         return String.format("아이디는 %s 입니다. 비밀번호는 %s 입니다.", userID, password );
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof User) {
+            User user = (User) obj;
+            return this.userID.equals(user.userID);
+        }
+     
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        
+        return userID.hashCode();
+    }
 }

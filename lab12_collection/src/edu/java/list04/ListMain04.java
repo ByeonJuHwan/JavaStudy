@@ -21,18 +21,47 @@ public class ListMain04 {
         
         Scanner sc = new Scanner(System.in);
         for(int i=0; i<3; i++) {
-            User user1 = new User();
+            
             System.out.print("아이디를 입력해주세요>> ");
-            user1.setUserID(sc.nextLine());
+            String id = sc.nextLine();
             System.out.print("비밀번호를 입력해주세요>> ");
-            user1.setPassword(sc.nextLine());
+            String pw = sc.nextLine();
+            User user1 = new User(id,pw);
             userList.add(user1);
         }
         sc.close();
         
-        for(User u : userList) {
-            System.out.println(u);
+        System.out.println(userList);
+        
+        // 리스트 users에서 인덱스 1인 원소를 삭제, 리스트를 출력
+        userList.remove(1);
+        System.out.println(userList);
+        
+        // 리스트에서 userId가 "guest"인 User 객체를 삭제, 리스트를 출력
+        // 1) userId가 "guest"인  User 객체의 인덱스를 찾아서 삭제
+        for(int i =0; i<userList.size(); i++) {
+            // 두 개의 문자열이 같은 지 비교할 때는 "반드시" equals() 메서드를 사용!
+            if(userList.get(i).getUserID().equals("guest")) {
+                userList.remove(i);
+                break;
+            }
         }
+        
+        System.out.println(userList);
+        
+        // 2) userId가 "guest"인 User 객체를 찾아서 삭제.
+        for(User u : userList) {
+            if (u.getUserID().equals("guest")) {
+                userList.remove(u);   // remove(Object o)
+                break;
+            }
+        }
+        
+        System.out.println(userList);
+        
+        
+        
+        
         
         
     }
