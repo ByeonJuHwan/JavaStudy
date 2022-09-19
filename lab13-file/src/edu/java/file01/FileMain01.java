@@ -14,10 +14,18 @@ import java.io.IOException;
  * 프로그램 ==> FileOutputStream ==> 파일
  * 
  * java.io.InputStream : 데이터를 읽어오는 통로
- * |__ FileInputStream : 파일에서 데이터를 읽어오는 통로
+ * |__ FileInputStream : 파일에서 데이터를 읽어오는 통로 (read)
+ * 
+ * (1) FileInputStream 객체 생성
+ * (2) FIS 객체 read 관련 메서드 호출
+ * (3) FIS 객체를 close.
  * 
  * java.io.InputStream : 데이터를 쓰는 (Write) 통로
- * |__ FileOutputStream : 파일에 데이터를 쓰는 통로
+ * |__ FileOutputStream : 파일에 데이터를 쓰는 통로 (Write)
+ * 
+ * (1) FileOutputStream 객체 생성
+ * (2) FOS 객체 write 관련 메서드 호출
+ * (3) FOS 객체를 close.
  * 
  * 
  */ 
@@ -35,23 +43,34 @@ public class FileMain01 {
             // data 폴데어 text_copy.txt 파일을 쓰기 위한 스트림 객체 생성
             out = new FileOutputStream("data/test_copy.txt");
             
+            // 파일 복사 시작 시간 측정.
+            long startTime = System.currentTimeMillis();
+            
             while(true) {
-                int read = in.read();
-                System.out.println(read);
-                if(read==-1) {
-                    break;
+                int read = in.read();    // 읽기 - 파일에서 1 바이트씩 읽음.
+                // System.out.println(read + ":" + (char)read);
+                if(read==-1) {  // read() 메서드는 파일 끝 (EOF : end of file)에 도달했을 때 -1 리턴
+                    break; // 무한 루프 종료.
                 }
                 
-                out.write(read);
+                out.write(read);         // 쓰기 - 파일에서 1바이트씩 쓰기(write)
             }
+            
+            // 파일 복사 종료 시간 측정.
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime-startTime; // 복사하는데 걸린 시간.
+            
+            System.out.println("파일 복사 성공!" + elapsedTime + "ms");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            // 예외가 발생하지 않아도, (try 블록이 정상적으로 끝났을 때)
+            // 예외가 발생하더라도 (catch 블록이 실행됐을 때)
+            // 열려져 있는 FIS, FOS 객체는 닫아야 함!
             try {
-                in.close();
-                out.close();
+                in.close();  // FileInputStram 객체 close
+                out.close(); // FileOutputStream 객체 close
             } catch (IOException e) {
-                
                 e.printStackTrace();
             } 
         }
