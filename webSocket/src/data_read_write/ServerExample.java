@@ -1,6 +1,8 @@
-package serversocket_socket;
+package data_read_write;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,6 +30,30 @@ public class ServerExample {
                 InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
                 
                 System.out.println("연결 수락함 : " + isa.getHostName());
+                
+                // 데이터를 주고 받는 코드
+                byte[] bytes = null;
+                 String message = null;
+                 
+                 InputStream is = socket.getInputStream();
+                 bytes = new  byte[100];
+                 int readByteCount = is.read(bytes); // 클라이언트가 메세지를 보내게 되면 bytes에 저장되고 실제 데이터는 readByteCount에 저장됨.
+                 message = new String(bytes,0,readByteCount,"UTF-8");
+                 System.out.println("데이터받기 성공 : " + message);
+                 
+                 // 서버가 클라이언트로 데이터를 보내는 코드
+                 
+                 OutputStream os = socket.getOutputStream();
+                 message = "Hello Client";
+                 bytes=message.getBytes("UTF-8");
+                 os.write(bytes);
+                 os.flush();
+                 System.out.println("데이터 보내기 성공!");
+                 
+                 is.close();
+                 os.close();
+                 socket.close();
+                 
             }
             
         } catch (Exception e) {
