@@ -16,6 +16,7 @@ public class AppMain01 {
      * Launch the application.
      */
     public static void main(String[] args) {
+        // 쓰레드를 EventQueue에 등록 -> 자바 가상 머신이 쓰레드를 실행시킴
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
