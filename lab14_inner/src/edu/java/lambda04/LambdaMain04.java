@@ -29,7 +29,8 @@ public class LambdaMain04 {
         System.out.println();
         
         
-        
+        employees.stream().forEach(x->System.out.println(x));
+        System.out.println();
     
         // Ex 2. job이 "개발자"인 직원들의 급여 합계를 출력.
         
@@ -77,7 +78,8 @@ public class LambdaMain04 {
                 .mapToInt(x->x.getSalary())
                 .average()
                 .getAsDouble();
-            
+                // .orElse(0); // Optional -> 정상적인 값 또는 비정상일 경우 기본값.
+                // .orElseThrow(); // Optional -> 정상적인 값 또는 Exception
         System.out.println("개발2팀의 직원들의 평균 급여 = " + avg);
                 
         
@@ -92,14 +94,14 @@ public class LambdaMain04 {
             }
         }
         
-        List<Employee>richList = new ArrayList<>();
-        richList = employees.stream()
-                .filter(x->x.getSalary()>=400)
-                .collect(Collectors.toList());
+        System.out.println();
         
-        for(Employee e : richList) {
-            System.out.println(e);
-        }
+        
+         employees.stream()
+                .filter(x->x.getSalary()>=400)
+                .forEach(System.out::println);
+        
+       
         
     }
 
