@@ -12,7 +12,17 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class AppMain05 {
-
+    // field
+    // 이미지 파일들의 경로를 저장한 (문자열) 배열.
+    private static final String[] IMAGES = {
+            "images/flower1.jpg",
+            "images/flower2.jpg",
+            "images/flower3.jpg",
+            "images/flower4.jpg",
+            "images/flower5.jpg"
+    };
+    
+    private int index; // 현재 화면에 보여지는 이미지의 인덱스.
     private JFrame frame;
     private JLabel lblImage;
 
@@ -50,7 +60,7 @@ public class AppMain05 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-        lblImage = new JLabel(new ImageIcon("images/flower1.jpg"));
+        lblImage = new JLabel(new ImageIcon(IMAGES[index]));
         lblImage.setBounds(12, 10, 640, 640);
         frame.getContentPane().add(lblImage);
         
@@ -58,7 +68,7 @@ public class AppMain05 {
         btnPrev.setFont(new Font("굴림", Font.PLAIN, 15));
         btnPrev.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ShowPrevImage();
+                showPrevImage(); // 내부 클레스에서 외부 클래스의 메서드도 사용 가능.
             }
         });
         btnPrev.setBounds(12, 682, 124, 58);
@@ -67,7 +77,7 @@ public class AppMain05 {
         JButton btnNext = new JButton("Next");
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ShowNextImage();
+                showNextImage();
             }
         });
         btnNext.setFont(new Font("굴림", Font.PLAIN, 15));
@@ -75,37 +85,28 @@ public class AppMain05 {
         frame.getContentPane().add(btnNext);
     }
 
-    protected void ShowPrevImage() {
-        Icon i =lblImage.getIcon();
-        String IconFileName = i.toString();
-        if(IconFileName.equals("images/flower1.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower5.jpg"));
-        }else if(IconFileName.equals("images/flower2.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower1.jpg"));
-        }else if(IconFileName.equals("images/flower3.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower2.jpg"));
-        }else if(IconFileName.equals("images/flower4.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower3.jpg"));
-        }else if(IconFileName.equals("images/flower5.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower4.jpg"));
+    protected void showPrevImage() {
+
+        // 현재 보여지는 이미지가 첫번째 이미지가 아니면 인덱스 1감소 -> 새로운 이미지를 보여줌
+        // 현재 보여지는 이미지가 첫번째 이미지이면 마지막 이미지(index = length-1)를 보여줌
+        if(index>0) {
+            index--;
+        }else {
+            index = IMAGES.length-1;
         }
-        
+        lblImage.setIcon(new ImageIcon(IMAGES[index]));
     }
 
-    protected void ShowNextImage() {
-        Icon i =lblImage.getIcon();
-        String IconFileName = i.toString();
-        if(IconFileName.equals("images/flower1.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower2.jpg"));
-        }else if(IconFileName.equals("images/flower2.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower3.jpg"));
-        }else if(IconFileName.equals("images/flower3.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower4.jpg"));
-        }else if(IconFileName.equals("images/flower4.jpg")) {
-            lblImage.setIcon(new ImageIcon("images/flower5.jpg"));
+    protected void showNextImage() {
+
+        // 현재 보여지는 이미지의 인덱스를 1증가 -> 새로운 이미지를 보여줌.
+        // 현재 보여지는 이미지가 가장 마지막 이미지이면 첫번째 이미지를 보여줌.
+        if(index<IMAGES.length-1) {
+            index++;
         }else {
-            lblImage.setIcon(new ImageIcon("images/flower1.jpg"));
+            index=0;
         }
+        lblImage.setIcon(new ImageIcon(IMAGES[index]));
     }
 
 }

@@ -61,7 +61,7 @@ public class FileMain10 {
         File[] files = dataDir.listFiles();
         System.out.println(files);
         for(File f : files) {
-            String fileName = f.getName();
+            String fileName = f.getName();  // f.getPath()
             String info = null;
             if(f.isFile()) { // 파일인경우
                 info = fileName + "\t" + f.length() + "bytes";
