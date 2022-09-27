@@ -73,7 +73,7 @@ public class AppMain05 {
         btnNext.setFont(new Font("굴림", Font.PLAIN, 15));
         btnNext.setBounds(583, 682, 124, 58);
         frame.getContentPane().add(btnNext);
-    }
+    } // end main
 
     protected void ShowPrevImage() {
         Icon i =lblImage.getIcon();
@@ -91,7 +91,7 @@ public class AppMain05 {
         }
         
     }
-
+    
     protected void ShowNextImage() {
         Icon i =lblImage.getIcon();
         String IconFileName = i.toString();
@@ -106,6 +106,7 @@ public class AppMain05 {
         }else {
             lblImage.setIcon(new ImageIcon("images/flower1.jpg"));
         }
+        
     }
 
-}
+} // end class
