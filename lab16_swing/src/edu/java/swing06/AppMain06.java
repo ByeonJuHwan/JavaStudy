@@ -15,6 +15,8 @@ public class AppMain06 {
     private JButton btnConfirmDlg;
     private JButton btnOptionDlg;
     private JButton btnInputDlg;
+    private JButton btnCustomDlg;
+    private JButton btnCustomFrame;
 
     /**
      * Launch the application.
@@ -47,7 +49,7 @@ public class AppMain06 {
         frame.setBounds(100, 100, 450, 673);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // [닫기] 버튼 클릭 동장 -> 프로그램 종료
         frame.getContentPane().setLayout(null);
         
         JButton btnMsgDlg = new JButton("Message Dialog");
@@ -107,7 +109,7 @@ public class AppMain06 {
             }
         });
         btnOptionDlg.setFont(new Font("굴림", Font.PLAIN, 19));
-        btnOptionDlg.setBounds(12, 230, 410, 79);
+        btnOptionDlg.setBounds(12, 220, 410, 79);
         frame.getContentPane().add(btnOptionDlg);
         
         btnInputDlg = new JButton("Input Dialog");
@@ -131,5 +133,27 @@ public class AppMain06 {
         btnInputDlg.setFont(new Font("굴림", Font.PLAIN, 19));
         btnInputDlg.setBounds(12, 319, 410, 79);
         frame.getContentPane().add(btnInputDlg);
+        
+        btnCustomDlg = new JButton("Custom Dialog");
+        btnCustomDlg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MyCustomDialog.showMyCustomDialog();
+                
+            }
+        });
+        btnCustomDlg.setFont(new Font("굴림", Font.PLAIN, 19));
+        btnCustomDlg.setBounds(12, 408, 410, 79);
+        frame.getContentPane().add(btnCustomDlg);
+        
+        btnCustomFrame = new JButton("Custom Frame");
+        btnCustomFrame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MyCustomFrame.showMyCustomFrame(); // arguments를 통해서 데이터 주고받기 가능
+            }
+        });
+        btnCustomFrame.setFont(new Font("굴림", Font.PLAIN, 19));
+        btnCustomFrame.setBounds(12, 501, 410, 79);
+        frame.getContentPane().add(btnCustomFrame);
     }
 }
