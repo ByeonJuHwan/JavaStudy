@@ -3,7 +3,7 @@ package wait_notify02;
 public class DataBox {
     private String data;
 
-    public String getData() {
+    public synchronized String getData() {
         if(this.data == null) {
             try {
                 wait();
@@ -18,7 +18,14 @@ public class DataBox {
         return returnValue;
     }
 
-    public void setData(String data) {
+    public synchronized void setData(String data) {
+    	if(this.data != null) {
+    		try {
+				wait();
+			} catch (InterruptedException e) {}
+    	}
         this.data = data;
+        System.out.println("ProducerThread가 생성한 데이터: " + data);
+        notify();
     }
 }
