@@ -21,6 +21,10 @@ public class AppMain08 {
     private JFrame frame;
     private JTextField textField;
     private JList<String> list;
+    
+    
+    // JList의 원소들을 관리하는 개체
+    // JList에 새로운 원소 추가, 원소삭제, 선택된 원소에 대한 정보
     private DefaultListModel<String> listModel;
 
     /**
@@ -67,7 +71,12 @@ public class AppMain08 {
         btnInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listModel.add(listModel.size(), textField.getText());
+                if(textField.getText().equals("")) {
+                    JOptionPane.showMessageDialog(frame, "입력된 내용이 없습니다.");
+                }else {
+                    listModel.add(listModel.size(), textField.getText());
+                    textField.setText("");
+                }
             }
         });
         btnInput.setFont(new Font("굴림", Font.BOLD, 15));
@@ -98,9 +107,9 @@ public class AppMain08 {
         scrollPane.setBounds(12, 146, 528, 293);
         frame.getContentPane().add(scrollPane);
         
-        list = new JList<>();
-        listModel = new DefaultListModel<>();
-        list.setModel(listModel);
+        list = new JList<>();  // JList<>(); // JList 객체 생성
+        listModel = new DefaultListModel<>(); // JList의 원소들을 관리하는 ListModel 객체를 생성
+        list.setModel(listModel); // JList에 ListModel을 설정.
         list.setFont(new Font("굴림", Font.BOLD, 15));
         scrollPane.setViewportView(list);
     }
