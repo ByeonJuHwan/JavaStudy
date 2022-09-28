@@ -13,140 +13,82 @@ import java.util.Scanner;
 
 // MVC 아키텍쳐에서 Controller를 구현하는 클래스.
 public class ContactDaoImpl implements ContactDao {
-    private List<Contact> contactList; // 연락처 데이터
-    private File dataDir; // 연락처 데이터 파일을 저장하는 폴더
-    private File dataFile; //연락처 데이터 파일
-    
-    Scanner scanner = new Scanner(System.in);
-    
+    private List<Contact> contacts; // 연락처 데이터
+    private File dataDir; // 연락처 데이터 파일이 저장된 폴더
+    private File dataFile; // 연락 데이터 파일
+
     // singleton
     private static ContactDaoImpl instance = null;
     
     private ContactDaoImpl() {
-        dataDir = initDataDir();  // 데이터 폴더 초기화
+        dataDir = initDataDir(); // 데이터 폴더 초기화
         dataFile = new File(DATA_DIR, DATA_FILE); // 데이터 파일 객체
-        contactList = initData(); // 데이터 초기화
+        contacts = initData(); // 데이터 초기화
     }
     
     public static ContactDaoImpl getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ContactDaoImpl();
         }
+        
         return instance;
     }
-
+    
     @Override
     public List<Contact> read() {
-        return contactList;
+        return contacts;
     }
 
     @Override
     public Contact read(int index) {
-        if(isValidindex(index)) {
-            return contactList.get(index);
+        if (isValidIndex(index)) {
+            return contacts.get(index);
+        } else {
+            return null;
         }
-        return null;
     }
 
-   
     @Override
     public int create(Contact contact) {
-        contactList.add(contact);
+        contacts.add(contact); // 리스트에 새로운 연락처 정보 추가.
         
-        // 새로운 데이터가 추가된 후, 파일과 동기화 하기 위해서 파일에 데이터를 저장.
-        writeDataToFile(contactList, dataFile);
+        // 새로운 데이터가 추가된 후, 파일과 동기화하기 위해서 파일에 데이터를 저장.
+        writeDataToFile(contacts, dataFile);
         
         return 1;
     }
 
     @Override
-    public int upate(int index, String command) {
-        
-        if(isValidindex(index)) {
-            if(command != null && command.equals("이름")) {
-                System.out.print("변경하고싶은 이름을 입력해주세요>> ");
-                String name = scanner.nextLine();
-                contactList.get(index).setName(name);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if(command != null && command.equals("번호")) {
-                System.out.print("변경하고싶은 번호를 입력해주세요>> ");
-                String phone = scanner.nextLine();
-                contactList.get(index).setPhone(phone);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if(command != null && command.equals("이메일")) {
-                System.out.print("변경하고싶은 이메일을 입력해주세요>> ");
-                String email = scanner.nextLine();
-                contactList.get(index).setEmail(email);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if (command != null && (command.equals("이름 번호") ||command.equals("번호 이름"))){
-                System.out.print("변경하고싶은 이름을 입력해주세요>> ");
-                String name = scanner.nextLine();
-                contactList.get(index).setName(name);
-                System.out.print("변경하고싶은 번호를 입력해주세요>> ");
-                String phone = scanner.nextLine();
-                contactList.get(index).setPhone(phone);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if(command != null && (command.equals("이름 이메일") ||command.equals("이메일 이름"))) {
-                System.out.print("변경하고싶은 이름을 입력해주세요>> ");
-                String name = scanner.nextLine();
-                contactList.get(index).setName(name);
-                System.out.print("변경하고싶은 이메일을 입력해주세요>> ");
-                String email = scanner.nextLine();
-                contactList.get(index).setEmail(email);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if (command != null && (command.equals("번호 이메일") ||command.equals("이메일 번호"))) {
-                System.out.print("변경하고싶은 번호를 입력해주세요>> ");
-                String phone = scanner.nextLine();
-                contactList.get(index).setPhone(phone);
-                System.out.print("변경하고싶은 이메일을 입력해주세요>> ");
-                String email = scanner.nextLine();
-                contactList.get(index).setEmail(email);
-                writeDataToFile(contactList, dataFile);
-                return 1;
-            }else if(command != null && (command.equals("이름 번호 이메일") ||command.equals("이름 이메일 번호" )
-                    ||command.equals("번호 이름 이메일")|| command.equals("번호 이메일 이름")
-                    ||command.equals("이메일 이름 번호")||command.equals("이메일 번호 이름"))) {
-                System.out.print("변경하고싶은 이름을 입력해주세요>> ");
-                String name = scanner.nextLine();
-                contactList.get(index).setName(name);
-                System.out.print("변경하고싶은 번호를 입력해주세요>> ");
-                String phone = scanner.nextLine();
-                contactList.get(index).setPhone(phone);
-                System.out.print("변경하고싶은 이메일을 입력해주세요>> ");
-                String email = scanner.nextLine();
-                contactList.get(index).setEmail(email);
-                writeDataToFile(contactList, dataFile);
-                
-                return 1;
-            }
-            
+    public int update(int index, Contact contact) {
+        if (!isValidIndex(index)) {
+            return 0;
         }
         
-        return 0;
+        contacts.set(index, contact); // 해당 인덱스의 연락처 정보를 변경.
+//        contacts.get(index).setName(contact.getName());
+//        contacts.get(index).setPhone(contact.getPhone());
+//        contacts.get(index).setEmail(contact.getEmail());
+        
+        // 업데이트된 연락처 정보를 파일에 씀.
+        writeDataToFile(contacts, dataFile);
+        
+        return 1;
     }
 
     @Override
     public int delete(int index) {
-        if(!isValidindex(index)) {
+        if (!isValidIndex(index)) {
             return 0;
         }
-        contactList.remove(index);
-        writeDataToFile(contactList, dataFile);
+        
+        contacts.remove(index); // 리스트에서 해당 인덱스의 원소를 삭제.
+        writeDataToFile(contacts, dataFile); // 변경된 데이터를 파일에 씀.
         
         return 1;
     }
 
-    private boolean isValidindex(int index) {
-        return (index>=0) && (index<contactList.size()) ;
-        
+    public boolean isValidIndex(int index) {
+        return (index >= 0) && (index < contacts.size());
     }
     
-    public int getSize() {
-        return contactList.size();
-    }
 }

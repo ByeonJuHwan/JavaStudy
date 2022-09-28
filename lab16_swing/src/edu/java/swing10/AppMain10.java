@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
@@ -15,12 +16,14 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class AppMain10 {
+    private static final String[] colNames = {"국어","영어","수학","총점","평균"};
 
     private JFrame frame;
     private JTextField textKorean;
     private JTextField textEnglish;
     private JTextField textMath;
     private JTable table;
+    private DefaultTableModel model;
 
     /**
      * Launch the application.
@@ -87,6 +90,12 @@ public class AppMain10 {
         frame.getContentPane().add(textMath);
         
         JButton btnInput = new JButton("입력");
+        btnInput.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputScore();
+            }
+        });
         btnInput.setForeground(Color.WHITE);
         btnInput.setBackground(Color.DARK_GRAY);
         btnInput.setFont(new Font("굴림", Font.BOLD, 15));
@@ -98,7 +107,9 @@ public class AppMain10 {
         btnDelete.setBackground(Color.DARK_GRAY);
         btnDelete.setFont(new Font("굴림", Font.BOLD, 15));
         btnDelete.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
+                deletRow();
             }
         });
         btnDelete.setBounds(227, 194, 134, 42);
@@ -108,20 +119,75 @@ public class AppMain10 {
         scrollPane.setBounds(26, 287, 415, 270);
         frame.getContentPane().add(scrollPane);
         
-        table = new JTable();
+        table = new JTable(); // JTable 생성
         
         // 테이블 데이터 -2차원배열 
         //TODO
         
         // 테이블 컬럼 이름 -1차원 배열
-        Object[] colNames = {"국어","영어","수학","총점","평균"};
+        // private static final String[] colNames = {"국어","영어","수학","총점","평균"};
         
         // 테이블 데이터를 관리하는 DefaultTableModel 객체를 생성.
-        DefaultTableModel model = new DefaultTableModel(null,colNames);
+        model = new DefaultTableModel(null,colNames);
+    
         
-        // 테이블의 데이터를 관리(추가, 삭제, ...)하는 TableModel을 JTable에 설정
-        table.setModel(model);
+        table.setModel(model); // 테이블 모델을 테이블에 세팅.
         
         scrollPane.setViewportView(table);
+    
+    } // end main
+    
+    private void deletRow() {
+        // 테이블에서 삭제하기 위해서선택된 행(row) 인덱스를 찾음.
+        int index = table.getSelectedRow();
+        if(index == -1) { // 성택된 행이 없는경우
+            JOptionPane.showMessageDialog(frame, "삭제할 행을 먼저 선택하세요","warning",JOptionPane.WARNING_MESSAGE);
+            return;
+        } 
+        int confirm = JOptionPane.showConfirmDialog(frame,index + " 번째 정말 삭제할까요?", "삭제 확인", JOptionPane.YES_NO_OPTION);
+        if(confirm == JOptionPane.YES_OPTION) {
+            model.removeRow(index);
+        }
+        
     }
-}
+
+    private void inputScore() {
+        // 3개의 JTextField에서 읽은 문자열을 정수(int)로 변환.
+        int korean=0;
+        int english=0;
+        int math=0;
+        try {
+            korean = Integer.parseInt(textKorean.getText());
+            english = Integer.parseInt(textEnglish.getText());
+            math = Integer.parseInt(textMath.getText());
+        }catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame, "입력값은 반드시 정수여야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }finally {
+            clearAllTextFields();
+        }
+        
+        // 입력값들을 사용해서 Score 객체 생성
+        Score score = new Score(korean,english,math);
+        
+        // 테이블에 행(row)에 추가할 데이터를 1차원 배열로 만듦.
+        Object[] rowData = {
+                score.getKorean(),
+                score.getMath(),
+                score.getEnglish(),
+                score.sum(),
+                score.average()
+        };
+        
+        // row data를 테이블 모델에 추가
+        model.addRow(rowData);
+        
+    }
+
+    private void clearAllTextFields() {
+        textEnglish.setText("");
+        textKorean.setText("");
+        textMath.setText("");
+        
+    }
+} // end class
