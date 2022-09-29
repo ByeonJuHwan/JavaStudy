@@ -134,11 +134,11 @@ public class ContactCreateFrame extends JFrame {
         // Contact 객체 생성
         Contact contact = new Contact(name, phone, email);
         
-        // 새연락처가 생성됐음을 (ContactMain에게) 알려준다.
-        listener.contactInsertNotify(contact);
-        
         // 현재 창 닫기 
         dispose();
+        
+        // 새연락처가 생성됐음을 (ContactMain에게) 알려준다.
+        listener.contactInsertNotify(contact);
     }
 
 }

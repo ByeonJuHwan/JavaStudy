@@ -3,6 +3,7 @@ package edu.java.contact.ver05;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -18,8 +19,9 @@ import edu.java.contact.ver04.ContactDaoImpl;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import edu.java.contact.ver05.ContactCreateFrame.ContactInsertListener;;
-public class ContactMain05 implements ContactInsertListener{
+import edu.java.contact.ver05.ContactCreateFrame.ContactInsertListener;
+import edu.java.contact.ver05.ContactUpdateFrame.ContactUpdateListener;;
+public class ContactMain05 implements ContactInsertListener, ContactUpdateListener{
     private static final String[] COLUMN_NAMES= {"이름","전화번호"};
 
     private JFrame frame;
@@ -96,8 +98,8 @@ public class ContactMain05 implements ContactInsertListener{
         JButton btnUpdate = new JButton("연락처 확인/수정");
         btnUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ContactUpdateFrame.newContactCreateFrame(frame);
-                //TODO
+                showUpdateFrame();
+                
             }
         });
         btnUpdate.setFont(new Font("굴림", Font.BOLD, 15));
@@ -119,10 +121,39 @@ public class ContactMain05 implements ContactInsertListener{
         table.setModel(model);
         scrollPane.setViewportView(table);
     }
+    private void showUpdateFrame() {
+        // 테이블에서 수정하기 위해서 선택한 행 번호를 찾음.
+        int row = table.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(frame, "수정할 행을 먼저 선택하세요.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        // 업데이트 창에서는 수정 전의 정보를 화면에 출력하기 위해서,
+        // 행 번호(=연락처 리스트의 인덱스)를 argument로 전달하면서 ContactUpdateFrame을 생성.
+        ContactUpdateFrame.newContactUpdateFrame(frame,row, ContactMain05.this);
+    }
+
     // ContactCreateFrame.ContactInsertListener 인터페이스의 메서드 구현.
     @Override
     public void contactInsertNotify(Contact c) {
-        System.out.println(c);
+        // ContactDaiImple의 메서드를 사용해서 새 연락처 정보를 파일에 저장.
+        int result = dao.create(c);
+        if(result == 1) {
+        // 메인 화면의 테이블을 갱신. <- 테이블 모델에 행(row) 테이블 추가.
+        addContactToTableModel(c);
+        JOptionPane.showMessageDialog(frame,c.getName() + " 추가 됐습니다.");
+        }
+    }
+
+    @Override // ContactUpdateListener 인터페이스를 구현
+    public void contactUpdateNotify() {
+        
+        // 테이블 모델 초기화
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        table.setModel(model);
+        
+        // 연락처 데이터 새로 로딩
+        loadContactDataFromFile();
         
     }
 
