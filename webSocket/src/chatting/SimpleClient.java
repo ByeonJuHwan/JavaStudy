@@ -19,8 +19,8 @@ public class SimpleClient {
 		BufferedWriter bw;
 		PrintWriter pw =null;
 		OutputStream os;
-		ServerSocket serverSocket;
 		Socket s1 = null;
+		ServerSocket serverSocket;
 		String inMessage = null;
 		String outMessage = null;
 		try {
