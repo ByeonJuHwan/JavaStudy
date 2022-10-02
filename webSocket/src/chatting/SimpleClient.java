@@ -24,7 +24,7 @@ public class SimpleClient {
 		String inMessage = null;
 		String outMessage = null;
 		try {
-			s1 = new Socket("125.132.95.231", 5434);
+			s1 = new Socket("127.0.0.1", 5434);
 			is = s1.getInputStream();
 			os = s1.getOutputStream();
 			br_in = new BufferedReader(new InputStreamReader(is));
