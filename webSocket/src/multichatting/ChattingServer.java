@@ -2,6 +2,7 @@ package multichatting;
 
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class ChattingServer {
 		frame.setTitle("다중 채팅 서버");
 		frame.setBounds(100, 100, 686, 502);
 		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -65,7 +67,8 @@ public class ChattingServer {
 		
 		list = new ArrayList<>();
 		try {
-			ServerSocket serverSocket = new ServerSocket(5000);
+			ServerSocket serverSocket = new ServerSocket();
+			serverSocket.bind(new InetSocketAddress("127.0.0.1",5000));
 			MultiServerThread mst = null;
 			boolean isStop = true;
 			textField.setText("서버 정상 실행 중입니다. 관리자님 !!");
