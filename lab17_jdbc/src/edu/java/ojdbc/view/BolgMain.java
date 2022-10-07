@@ -83,10 +83,19 @@ public class BolgMain {
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
         
         JButton btnCreate = new JButton("새글 작성");
+        btnCreate.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		InsertArticle.newInsertArticle(frame);
+        	}
+        });
         btnCreate.setFont(new Font("굴림", Font.BOLD, 15));
         buttonPanel.add(btnCreate);
         
         JButton btnRead = new JButton("상세보기");
+        btnRead.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         btnRead.setFont(new Font("굴림", Font.BOLD, 15));
         buttonPanel.add(btnRead);
         
@@ -108,13 +117,16 @@ public class BolgMain {
         scrollPane.setViewportView(table);
     }
 
-    private void deleteRow() {
-        int no = model.getRowCount();
-        int result  = dao.delete(no);
+    
+
+	private void deleteRow() {
+        int row = table.getSelectedRow();
+        int result  = dao.delete(row);
+        
         if(result == 1) {
             JOptionPane.showMessageDialog(frame, "삭제완료");
         }
-        
+        model.removeRow(row);
         
         
     }
