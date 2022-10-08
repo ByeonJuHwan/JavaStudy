@@ -146,7 +146,7 @@ public class InsertArticle extends JFrame {
 		if(result == 1) {
 			dispose();
 			listener.insertArticleNotify();
-			JOptionPane.showMessageDialog(parent, "삽입 완료", "완료", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(parent, "작성 완료", "완료", JOptionPane.PLAIN_MESSAGE);
 		}
 		
 	}
