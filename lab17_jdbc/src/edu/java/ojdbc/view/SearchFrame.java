@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,7 @@ import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 
 public class SearchFrame extends JFrame {
+	
 	private static final String[] categories= {"제목", "내용", "작성자"};
 	private static final String[] COLUMN_NAMES = {
             COL_BOLG_NO, COL_TITLE, COL_AUTHOR, COL_MODIFIED_DATE
@@ -59,8 +61,9 @@ public class SearchFrame extends JFrame {
 	}
 	
 	public SearchFrame(Component parent) {
-		initialize();
+		this.parent = parent;
 		dao = BlogDaoImpl.getInstance();
+		initialize();
 	}
 	
 	
@@ -125,6 +128,11 @@ public class SearchFrame extends JFrame {
 		
 		String category = (String) comboBox.getSelectedItem();
 		String text = inputSearch.getText();
+		
+		if(text.equals("")) {
+			JOptionPane.showMessageDialog(contentPane, "검색할 내용을 입력해주세요..", "경고", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		
 		list = dao.selectByColumn(category, text);
 		
