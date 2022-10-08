@@ -11,6 +11,7 @@ public interface BlogDao {
     int insert(Blog blog); // SQL_INSERT
     int update(Blog blog); // SQL_UPDATE
     int delete(Integer blogNo); //SQL_DELETE
+    List<Blog> selectByColumn(String category ,String text); //SQL_SELECT_BY_COLUMN
     
 
 }

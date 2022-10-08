@@ -206,6 +206,47 @@ public class BlogDaoImpl implements BlogDao {
         
         return result;
     }
-   
-
+	@Override
+	public List<Blog> selectByColumn(String category ,String text) {
+		List<Blog> list = new ArrayList<>();
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn  = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			if(category.equals("제목")) {
+				category = COL_TITLE;
+			}else if(category.equals("내용")){
+				category = COL_CONTENT;
+			}else {
+				category = COL_AUTHOR;
+			}
+		
+			stmt = conn.prepareStatement(SQL_SELECT_BY_COLUMN+" where " + category + " like '%" + text +"%'");
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				Integer blogNo = rs.getInt(COL_BOLG_NO); // BOLG_NO 컬럼의 값(number)을 읽음.
+                String title = rs.getString(COL_TITLE);
+                String content = rs.getString(COL_CONTENT);
+                String author = rs.getString(COL_AUTHOR);
+                LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
+                LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
+                
+                Blog blog = new Blog(blogNo,title,content,author,createdDate,modifiedDate);
+                list.add(blog);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 }

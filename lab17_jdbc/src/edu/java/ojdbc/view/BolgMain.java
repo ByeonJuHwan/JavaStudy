@@ -111,6 +111,15 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
                 deleteRow();
             }
         });
+        
+        JButton btnSearch = new JButton("검색");
+        btnSearch.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		searchArticle();
+        	}
+        });
+        btnSearch.setFont(new Font("굴림", Font.BOLD, 15));
+        buttonPanel.add(btnSearch);
         btnDelete.setFont(new Font("굴림", Font.BOLD, 15));
         buttonPanel.add(btnDelete);
         
@@ -125,7 +134,12 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
 
     
 
-	protected void updateRow() {
+	private void searchArticle() {
+		
+		SearchFrame.newSearchFrame(frame);
+	}
+
+	private void updateRow() {
 		List<Blog>list = new ArrayList<>();
         list = dao.select();
 		
