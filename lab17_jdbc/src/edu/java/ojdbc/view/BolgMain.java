@@ -18,11 +18,12 @@ import javax.swing.table.DefaultTableModel;
 import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 import edu.java.ojdbc.view.InsertArticle.InsertAricleListener;
+import edu.java.ojdbc.view.ViewAll.ViewAllListener;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class BolgMain implements InsertAricleListener{
+public class BolgMain implements InsertAricleListener,ViewAllListener{
     
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
     private static final String[] COLUMN_NAMES = {
@@ -98,9 +99,7 @@ public class BolgMain implements InsertAricleListener{
         JButton btnRead = new JButton("상세보기");
         btnRead.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		int row = table.getSelectedRow();
-        		System.out.println(row);
-        		ViewAll.newViewAll(frame,row);
+                updateRow();
         	}
         });
         btnRead.setFont(new Font("굴림", Font.BOLD, 15));
@@ -126,12 +125,30 @@ public class BolgMain implements InsertAricleListener{
 
     
 
+	protected void updateRow() {
+		List<Blog>list = new ArrayList<>();
+        list = dao.select();
+		
+        int row = table.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(frame, "확인할 행을 먼저 선택하세요.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        blog = list.get(row);
+        
+        ViewAll.newViewAll(frame,blog.getBlogNo(),BolgMain.this);
+	}
+
 	private void deleteRow() {
         List<Blog>list = new ArrayList<>();
         list = dao.select();
         
         
         int row = table.getSelectedRow();
+        if(row == -1) {
+            JOptionPane.showMessageDialog(frame, "삭제할 행을 먼저 선택하세요.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         blog = list.get(row);
         
         
@@ -144,6 +161,14 @@ public class BolgMain implements InsertAricleListener{
 
 	@Override
 	public void insertArticleNotify() {
+		model = new DefaultTableModel(null, COLUMN_NAMES);
+		table.setModel(model);
+		initializeTable();
+		
+	}
+
+	@Override
+	public void viewAllNotify() {
 		model = new DefaultTableModel(null, COLUMN_NAMES);
 		table.setModel(model);
 		initializeTable();

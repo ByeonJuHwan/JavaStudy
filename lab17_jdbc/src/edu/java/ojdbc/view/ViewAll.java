@@ -11,6 +11,8 @@ import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -20,7 +22,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ViewAll extends JFrame {
-
+	
+	public interface ViewAllListener{
+		void viewAllNotify();
+	}
+	
+	private ViewAllListener listener;
 	private Component parent;
 	private int row;
 	
@@ -37,10 +44,10 @@ public class ViewAll extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void newViewAll(Component parent, int row) {
+	public static void newViewAll(Component parent, int row,ViewAllListener listener) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				ViewAll frame = new ViewAll(parent,row);
+				ViewAll frame = new ViewAll(parent,row,listener);
 				frame.setVisible(true);
 			}
 		});
@@ -53,9 +60,10 @@ public class ViewAll extends JFrame {
 	 * @param index 
      *
      */
-     public ViewAll(Component parent, int row) {
+     public ViewAll(Component parent, int row,ViewAllListener listener) {
     	 this.parent = parent;
     	 this.row = row;
+    	 this.listener = listener;
     	 this.dao = BlogDaoImpl.getInstance();
     	 initialize();
     	 showSelectedRow();
@@ -107,6 +115,7 @@ public class ViewAll extends JFrame {
 		ShowAuthor = new JTextField();
 		ShowAuthor.setFont(new Font("D2Coding", Font.BOLD, 15));
 		ShowAuthor.setColumns(10);
+		ShowAuthor.setEditable(false);
 		ShowAuthor.setBounds(120, 63, 174, 43);
 		contentPane.add(ShowAuthor);
 		
@@ -160,12 +169,31 @@ public class ViewAll extends JFrame {
 		JButton btnUpdate = new JButton("수정");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				updateArticle();
 			}
 		});
 		btnUpdate.setFont(new Font("D2Coding", Font.BOLD, 15));
 		btnUpdate.setBounds(346, 515, 140, 47);
 		contentPane.add(btnUpdate);
+	}
+
+	protected void updateArticle() {
+		Integer no = Integer.parseInt(ShowBlogNo.getText());
+		String title = ShowTitle.getText();
+		String content = ShowContent.getText();
+		String author = ShowAuthor.getText();
+		
+		Blog blog = new Blog(no,title,content,author,null,null);
+		
+		int result = dao.update(blog);
+		
+		
+		if(result == 1) {
+			dispose();
+			listener.viewAllNotify();
+			JOptionPane.showMessageDialog(parent, "수정완료", "확인", JOptionPane.PLAIN_MESSAGE);
+		}
+		
 	}
 
 }

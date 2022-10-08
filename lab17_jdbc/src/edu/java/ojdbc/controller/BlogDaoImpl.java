@@ -153,8 +153,29 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public int update(Blog blog) {
-        // TODO Auto-generated method stub
-        return 0;
+    	int result = 0;
+    	try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			stmt = conn.prepareStatement(SQL_UPDATE);
+			
+			stmt.setString(1, blog.getTitle());
+			stmt.setString(2, blog.getContent());
+			stmt.setInt(3, blog.getBlogNo());
+			
+			result = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+        return result;
     }
 
     @Override

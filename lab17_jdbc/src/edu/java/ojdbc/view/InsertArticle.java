@@ -116,20 +116,7 @@ public class InsertArticle extends JFrame {
 		btnInsertAriticle = new JButton("작성완료");
 		btnInsertAriticle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String title = inputTitle.getText();
-				String content = insertContent.getText();
-				String author = inputAuthor.getText();
-				
-				Blog blog = new Blog(null, title,content,author, null, null);
-				
-				int result = dao.insert(blog);
-				System.out.println(result);
-				if(result == 1) {
-					dispose();
-					listener.insertArticleNotify();
-					JOptionPane.showMessageDialog(parent, "삽입 완료", "완료", JOptionPane.PLAIN_MESSAGE);
-				}
-				
+				updateComplete();
 			}
 		});
 		btnInsertAriticle.setFont(new Font("D2Coding", Font.BOLD, 15));
@@ -145,5 +132,22 @@ public class InsertArticle extends JFrame {
 		btnCancle.setFont(new Font("D2Coding", Font.BOLD, 15));
 		btnCancle.setBounds(122, 515, 140, 47);
 		contentPane.add(btnCancle);
+	}
+
+	protected void updateComplete() {
+		String title = inputTitle.getText();
+		String content = insertContent.getText();
+		String author = inputAuthor.getText();
+		
+		Blog blog = new Blog(null, title,content,author, null, null);
+		
+		int result = dao.insert(blog);
+		System.out.println(result);
+		if(result == 1) {
+			dispose();
+			listener.insertArticleNotify();
+			JOptionPane.showMessageDialog(parent, "삽입 완료", "완료", JOptionPane.PLAIN_MESSAGE);
+		}
+		
 	}
 }
