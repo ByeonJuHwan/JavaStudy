@@ -20,6 +20,5 @@ public interface JdbcSql {
     String SQL_DELETE = String.format("delete from %s where %s = ?", TBL_BLOGS, COL_BOLG_NO);
 
     // 제목/내용/작성자로 검색하기
-    // TODO
     String SQL_SELECT_BY_COLUMN = String.format("select * from %s", TBL_BLOGS);
 }

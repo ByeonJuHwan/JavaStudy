@@ -46,8 +46,6 @@ public class SearchFrame extends JFrame {
 	
 	private BlogDaoImpl dao;
 	private JButton btnBack;
-	private int index;
-
 	/**
 	 * Launch the application.
 	 */

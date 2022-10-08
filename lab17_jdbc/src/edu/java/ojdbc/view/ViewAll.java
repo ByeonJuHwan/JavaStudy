@@ -38,7 +38,6 @@ public class ViewAll extends JFrame {
 	private JTextField ShowDate;
 	private JTextArea ShowContent;
 	
-	
 	private BlogDaoImpl dao;
 
 	/**
@@ -69,8 +68,6 @@ public class ViewAll extends JFrame {
     	 showSelectedRow();
      }
 	
-	
-
 	 private void showSelectedRow() {
 		Blog blog = dao.select(row);
 		ShowTitle.setText(blog.getTitle());
@@ -187,13 +184,10 @@ public class ViewAll extends JFrame {
 		
 		int result = dao.update(blog);
 		
-		
 		if(result == 1) {
 			dispose();
 			listener.viewAllNotify();
 			JOptionPane.showMessageDialog(parent, "수정완료", "확인", JOptionPane.PLAIN_MESSAGE);
 		}
-		
 	}
-
 }
