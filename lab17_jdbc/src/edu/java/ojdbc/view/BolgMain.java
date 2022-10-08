@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -16,11 +17,12 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
+import edu.java.ojdbc.view.InsertArticle.InsertAricleListener;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class BolgMain {
+public class BolgMain implements InsertAricleListener{
     
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
     private static final String[] COLUMN_NAMES = {
@@ -34,6 +36,7 @@ public class BolgMain {
     
     
     private BlogDaoImpl dao;
+    private Blog blog;
     
 
     /**
@@ -77,6 +80,7 @@ public class BolgMain {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 622, 611);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JPanel buttonPanel = new JPanel();
@@ -85,7 +89,7 @@ public class BolgMain {
         JButton btnCreate = new JButton("새글 작성");
         btnCreate.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		InsertArticle.newInsertArticle(frame);
+        		InsertArticle.newInsertArticle(frame,BolgMain.this);
         	}
         });
         btnCreate.setFont(new Font("굴림", Font.BOLD, 15));
@@ -94,6 +98,9 @@ public class BolgMain {
         JButton btnRead = new JButton("상세보기");
         btnRead.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		int row = table.getSelectedRow();
+        		System.out.println(row);
+        		ViewAll.newViewAll(frame,row);
         	}
         });
         btnRead.setFont(new Font("굴림", Font.BOLD, 15));
@@ -120,15 +127,27 @@ public class BolgMain {
     
 
 	private void deleteRow() {
-        int row = table.getSelectedRow();
-        int result  = dao.delete(row);
+        List<Blog>list = new ArrayList<>();
+        list = dao.select();
         
+        
+        int row = table.getSelectedRow();
+        blog = list.get(row);
+        
+        
+        int result = dao.delete(blog.getBlogNo());
         if(result == 1) {
             JOptionPane.showMessageDialog(frame, "삭제완료");
         }
         model.removeRow(row);
-        
-        
     }
+
+	@Override
+	public void insertArticleNotify() {
+		model = new DefaultTableModel(null, COLUMN_NAMES);
+		table.setModel(model);
+		initializeTable();
+		
+	}
 
 }

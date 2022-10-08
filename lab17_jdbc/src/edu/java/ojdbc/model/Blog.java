@@ -33,8 +33,9 @@ public class Blog {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
     }
+    
 
-    public Integer getBlogNo() {
+	public Integer getBlogNo() {
         return blogNo;
     }
 

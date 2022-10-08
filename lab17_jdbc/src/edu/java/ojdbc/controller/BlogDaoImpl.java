@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.java.ojdbc.model.Blog;
 import oracle.jdbc.OracleDriver;
@@ -78,15 +80,75 @@ public class BlogDaoImpl implements BlogDao {
     
 
     @Override
-    public Blog select(Integer blogNo) {
-        // TODO Auto-generated method stub
-        return null;
+    public Blog select(Integer No) {
+    	 Map<Integer,Blog> map = new HashMap<>();
+    	 Blog blog = new Blog();
+    	try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			stmt = conn.prepareStatement(SQL_SELECT_BY_NO);
+			
+			stmt.setInt(1, No);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Integer blogNo = rs.getInt(COL_BOLG_NO); // BOLG_NO 컬럼의 값(number)을 읽음.
+                String title = rs.getString(COL_TITLE);
+                String content = rs.getString(COL_CONTENT);
+                String author = rs.getString(COL_AUTHOR);
+                LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
+                LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
+                
+                Blog blog1 = new Blog(blogNo,title,content,author,createdDate,modifiedDate);
+                map.put(blogNo, blog1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+    	
+    	blog = map.get(No);
+		return blog;
+    	
     }
 
     @Override
     public int insert(Blog blog) {
-        // TODO Auto-generated method stub
-        return 0;
+    	int result=0;
+    	try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			stmt = conn.prepareStatement(SQL_INSERT);
+			
+			stmt.setString(1, blog.getTitle());
+			stmt.setString(2, blog.getContent());
+			stmt.setString(3, blog.getAuthor());
+			
+			result = stmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+        return result;
     }
 
     @Override
