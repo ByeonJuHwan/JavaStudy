@@ -37,7 +37,7 @@ public class InsertArticle extends JFrame {
 	private JButton btnCancle;
 	
 	
-	private BlogDaoImpl dao;
+	private BlogDaoImpl dao; // DB 테이블 기능
 
 	/**
 	 * Launch the application.
@@ -71,7 +71,9 @@ public class InsertArticle extends JFrame {
 	private void  initialize() {
 		setTitle("새 글 추가");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 622, 611);
+		int x = parent.getX(); // 부모창 의 X 좌표
+		int y = parent.getY(); // 부모창 의 Y 좌표
+		setBounds(x, y, 622, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -139,6 +141,12 @@ public class InsertArticle extends JFrame {
 		String content = insertContent.getText();
 		String author = inputAuthor.getText();
 		
+		if(title.equals("")||content.equals("")||author.equals("")) {
+		    JOptionPane.showMessageDialog(this, // InsertArticleComponent - > InsertArticle의 주소
+		            "제목,내용,작성자는 반드시 입력되어야 합니다.", "ERROR", JOptionPane.ERROR_MESSAGE);
+		    return; // insert하면 안 됨 -> 메서드 종료
+		}
+		
 		Blog blog = new Blog(null, title,content,author, null, null);
 		
 		int result = dao.insert(blog);
@@ -146,8 +154,9 @@ public class InsertArticle extends JFrame {
 		if(result == 1) {
 			dispose();
 			listener.insertArticleNotify();
-			JOptionPane.showMessageDialog(parent, "작성 완료", "완료", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "작성 완료", "완료", JOptionPane.PLAIN_MESSAGE);
+		}else {
+		    JOptionPane.showMessageDialog(this, "작성 실패", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
 }

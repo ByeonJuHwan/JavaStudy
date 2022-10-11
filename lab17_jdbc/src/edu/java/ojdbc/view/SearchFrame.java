@@ -73,8 +73,11 @@ public class SearchFrame extends JFrame {
 	 * @return 
      */
 	public void initialize() {
+	    setTitle("검색");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 622, 611);
+		int x = parent.getX();
+		int y = parent.getY();
+		setBounds(x, y, 622, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,19 +39,32 @@ public class BlogDaoImpl implements BlogDao {
         return instance;
     }
     
+    // executeUpdate 일 경우
+    private void closeResources(Connection conn, Statement stmt) throws SQLException{
+        stmt.close();
+        conn.close();
+    }
+    
+    // executeQuery 일경우 
+    private void closeResources(Connection conn, Statement stmt, ResultSet rs) throws SQLException{
+        rs.close();
+        closeResources(conn,stmt);
+    }
+    
     
     @Override
     public List<Blog> select() {
-        List<Blog> list = new ArrayList<>();
+        List<Blog> list = new ArrayList<>(); // 리턴하기위한 ArrayLst - select의 결과를 저장
         
         try {
             DriverManager.registerDriver(new OracleDriver());
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
-            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            stmt = conn.prepareStatement(SQL_SELECT_ALL); // SQL 문장 준비
             
-            rs =stmt.executeQuery();
-            while(rs.next()) {
+            rs =stmt.executeQuery(); // SQL 문장 실행
+            while(rs.next()) { // ResultSet에 row 데이터가 있으면
+                // row에서 각 column에 이쓴 값들을 분석.
                 Integer blogNo = rs.getInt(COL_BOLG_NO); // BOLG_NO 컬럼의 값(number)을 읽음.
                 String title = rs.getString(COL_TITLE);
                 String content = rs.getString(COL_CONTENT);
@@ -58,22 +72,19 @@ public class BlogDaoImpl implements BlogDao {
                 LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
                 LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
                 
+                // Blog 타입 객체 생성
                 Blog blog = new Blog(blogNo,title,content,author,createdDate,modifiedDate);
-                list.add(blog);
+                list.add(blog); // 결과 ArrayList에 추가.
             }
             
         } catch (SQLException e) {
-            
             e.printStackTrace();
         }finally {
             try {
-                rs.close();
-                stmt.close();
-                conn.close();
+                closeResources(conn, stmt, rs);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-           
         }
         return list;
     }
@@ -108,9 +119,7 @@ public class BlogDaoImpl implements BlogDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				rs.close();
-				stmt.close();
-				conn.close();
+				closeResources(conn, stmt, rs);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -142,8 +151,7 @@ public class BlogDaoImpl implements BlogDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				stmt.close();
-				conn.close();
+				closeResources(conn, stmt);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -169,8 +177,7 @@ public class BlogDaoImpl implements BlogDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				stmt.close();
-				conn.close();
+				closeResources(conn, stmt);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -196,8 +203,7 @@ public class BlogDaoImpl implements BlogDao {
             e.printStackTrace();
         }finally {
             try {
-                stmt.close();
-                conn.close();
+                closeResources(conn, stmt);
             } catch (SQLException e) {
                
                 e.printStackTrace();
@@ -241,8 +247,7 @@ public class BlogDaoImpl implements BlogDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				stmt.close();
-				conn.close();
+				closeResources(conn, stmt, rs);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

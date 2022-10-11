@@ -66,10 +66,12 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
     }
 
     private void initializeTable() {
+        // 데이터는 없는, 컬럼 이름들만 설정된 테이블 모델 객체를 생성 => 테이초기화
+        // DB에서 데이터를 검색.
         List<Blog> list = dao.select();
         for(Blog b : list) {
             Object[] row = {b.getBlogNo(), b.getTitle(),b.getAuthor(),b.getModifiedDate()};
-            model.addRow(row);
+            model.addRow(row); // 테이블 모델에 행(row) 데이터로 추가.
         }
          
         
@@ -80,7 +82,8 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 622, 611);
+        frame.setTitle("블로그");
+        frame.setBounds(650, 200, 622, 611);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
