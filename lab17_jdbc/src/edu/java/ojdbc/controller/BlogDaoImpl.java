@@ -221,7 +221,7 @@ public class BlogDaoImpl implements BlogDao {
 				category = COL_AUTHOR;
 			}
 		
-			stmt = conn.prepareStatement(SQL_SELECT_BY_COLUMN+" where " + category + " like '%" + text +"%'");
+			stmt = conn.prepareStatement(SQL_SELECT_BY_COLUMN+" where " + category + " like '%" + text +"%'"+" order by "+COL_BOLG_NO+" desc");
 			
 			rs = stmt.executeQuery();
 			
