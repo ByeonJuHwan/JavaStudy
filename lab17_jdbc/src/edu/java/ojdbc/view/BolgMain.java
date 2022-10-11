@@ -94,6 +94,7 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
         btnCreate.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		InsertArticle.newInsertArticle(frame,BolgMain.this);
+        		// BlogMain.this 는 BlogMain 의 주소이지만  // 그냥 this로 줄경우 버튼의 익명클래스(ActionListener)의 주소이다. 즉 다른 주소이다.
         	}
         });
         btnCreate.setFont(new Font("굴림", Font.BOLD, 15));
@@ -138,7 +139,6 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
     
 
 	private void searchArticle() {
-		
 		SearchFrame.newSearchFrame(frame);
 	}
 
@@ -162,34 +162,46 @@ public class BolgMain implements InsertAricleListener,ViewAllListener{
         
         
         int row = table.getSelectedRow();
-        if(row == -1) {
+        if(row == -1) { // JTable에서 선택된 행이 없는 경우
             JOptionPane.showMessageDialog(frame, "삭제할 행을 먼저 선택하세요.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
         blog = list.get(row);
         
+        int confirm = JOptionPane.showConfirmDialog(frame,
+                blog.getBlogNo() + " 번 블로그 글을 정말  삭제할까요??",
+                "삭제확인",
+                JOptionPane.YES_NO_OPTION);
         
-        int result = dao.delete(blog.getBlogNo());
-        if(result == 1) {
-            JOptionPane.showMessageDialog(frame, "삭제완료");
+        if(confirm == JOptionPane.YES_OPTION) {
+            int result = dao.delete(blog.getBlogNo());
+            if(result == 1) {
+                JOptionPane.showMessageDialog(frame, "삭제완료");
+            }else {
+                JOptionPane.showMessageDialog(frame, "삭제실패");
+            }
+            model.removeRow(row);
+        }else {
+            return;
         }
-        model.removeRow(row);
     }
 
 	@Override
 	public void insertArticleNotify() {
-		model = new DefaultTableModel(null, COLUMN_NAMES);
-		table.setModel(model);
-		initializeTable();
-		
+		resetTable();
 	}
-
-	@Override
+	
+    @Override
 	public void viewAllNotify() {
-		model = new DefaultTableModel(null, COLUMN_NAMES);
-		table.setModel(model);
-		initializeTable();
-		
+        resetTable();
 	}
+    
+    private void resetTable() {
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        table.setModel(model);
+        initializeTable();
+        
+    }
 
 }

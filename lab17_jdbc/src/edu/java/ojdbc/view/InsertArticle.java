@@ -152,9 +152,9 @@ public class InsertArticle extends JFrame {
 		int result = dao.insert(blog);
 		System.out.println(result);
 		if(result == 1) {
+			JOptionPane.showMessageDialog(this, "작성 완료", "완료", JOptionPane.PLAIN_MESSAGE);
 			dispose();
 			listener.insertArticleNotify();
-			JOptionPane.showMessageDialog(this, "작성 완료", "완료", JOptionPane.PLAIN_MESSAGE);
 		}else {
 		    JOptionPane.showMessageDialog(this, "작성 실패", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}

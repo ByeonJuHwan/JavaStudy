@@ -93,17 +93,18 @@ public class BlogDaoImpl implements BlogDao {
     @Override
     public Blog select(Integer No) {
     	 Map<Integer,Blog> map = new HashMap<>();
-    	 Blog blog = new Blog();
+    	 Blog blog = null; // (DB에서 검색한) 리턴할 Blog 타입 객체.
     	try {
 			DriverManager.registerDriver(new OracleDriver());
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 			
+			System.out.println(SQL_SELECT_BY_NO);
 			stmt = conn.prepareStatement(SQL_SELECT_BY_NO);
 			
 			stmt.setInt(1, No);
 			
 			rs = stmt.executeQuery();
-			while(rs.next()) {
+			if(rs.next()) {
 				Integer blogNo = rs.getInt(COL_BOLG_NO); // BOLG_NO 컬럼의 값(number)을 읽음.
                 String title = rs.getString(COL_TITLE);
                 String content = rs.getString(COL_CONTENT);
@@ -111,8 +112,7 @@ public class BlogDaoImpl implements BlogDao {
                 LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
                 LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
                 
-                Blog blog1 = new Blog(blogNo,title,content,author,createdDate,modifiedDate);
-                map.put(blogNo, blog1);
+                blog = new Blog(blogNo,title,content,author,createdDate,modifiedDate);
 			}
 			
 		} catch (SQLException e) {
@@ -124,8 +124,6 @@ public class BlogDaoImpl implements BlogDao {
 				e.printStackTrace();
 			}
 		}
-    	
-    	blog = map.get(No);
 		return blog;
     	
     }
@@ -205,7 +203,6 @@ public class BlogDaoImpl implements BlogDao {
             try {
                 closeResources(conn, stmt);
             } catch (SQLException e) {
-               
                 e.printStackTrace();
             }
         }
