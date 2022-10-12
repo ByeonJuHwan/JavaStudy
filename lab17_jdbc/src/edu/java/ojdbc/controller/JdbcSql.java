@@ -3,7 +3,9 @@ package edu.java.ojdbc.controller;
 import static edu.java.ojdbc.model.Blog.Entity.*;
 
 public interface JdbcSql {
-
+    // 문자열 포맷 : %s - 문자열, %d - 정수, %f - 실수
+    
+    
     // 전체검색 - 블로그 글 번호 내림차순 정렬
     String SQL_SELECT_ALL = String.format("select * from %s order by %s desc", TBL_BLOGS,COL_BOLG_NO);
     
@@ -21,4 +23,11 @@ public interface JdbcSql {
 
     // 제목/내용/작성자로 검색하기
     String SQL_SELECT_BY_COLUMN = String.format("select * from %s", TBL_BLOGS);
+    
+    // 제목으로 검색
+    String SQL_SELECT_BY_TITLE = String.format("select * from %s where %s like ? order by %s desc", TBL_BLOGS, COL_TITLE,COL_BOLG_NO);
+    // 내용으로 검색
+    String SQL_SELECT_BY_CONTENT = String.format("select * from %s where %s like ? order by %s desc", TBL_BLOGS, COL_CONTENT,COL_BOLG_NO);
+    // 작성자로 검색
+    String SQL_SELECT_BY_AUTHOR = String.format("select * from %s where %s like ? order by %s desc", TBL_BLOGS, COL_AUTHOR,COL_BOLG_NO);
 }
