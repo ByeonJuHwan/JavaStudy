@@ -92,7 +92,6 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public Blog select(Integer No) {
-    	 Map<Integer,Blog> map = new HashMap<>();
     	 Blog blog = null; // (DB에서 검색한) 리턴할 Blog 타입 객체.
     	try {
 			DriverManager.registerDriver(new OracleDriver());
