@@ -1,7 +1,7 @@
 package Optional;
 
 import java.util.Optional;
-
+    
 public class Optional01 {
 
     public static void main(String[] args) {
@@ -22,12 +22,12 @@ public class Optional01 {
 //        } // 예외 발생
 //        이 방식으로 하면 너무 번거로워서 이렇게 안함.
         
-        str = opt.orElse("EMPTY"); // Optional에 저장된 값이 null 이면 "" 반환.ㄴ
-        System.out.println("str = " + str);
+        str = opt.orElse("EMPTY"); // Optional에 저장된 값이 null 이면 "EMPTY" 반환.
+        System.out.println("str = " + str); // 저장된 값이 null이기 때문에 EMPTY 출력
         
-        Optional<String> opt2 = Optional.of("abc");
+        Optional<String> opt2 = Optional.of("abc");  // opt2에 abc  값 입력
         str= opt2.orElse("EMPTY");
-        System.out.println("str = " + str);
+        System.out.println("str = " + str); // null이 아니므로 abc 출력
     }
 
 }
